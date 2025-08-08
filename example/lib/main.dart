@@ -1,3 +1,4 @@
+import 'package:example/pulsing_border_controls.dart';
 import 'package:flutter/material.dart';
 import 'package:pulsing_border/pulsing_border.dart';
 
@@ -8,7 +9,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -80,7 +80,6 @@ class _ExamplePageState extends State<ExamplePage> {
                               valueListenable: controller,
                               builder: (context, isPulsing, child) {
                                 return Text(
-                                  // isPulsing ? 'Stop Pulsing' : 'Start Pulsing',
                                   'Pulsing Border',
                                   style: TextStyle(
                                     fontSize: 16,
@@ -98,85 +97,37 @@ class _ExamplePageState extends State<ExamplePage> {
                 ),
               ),
               SizedBox(height: 48),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Column(
-                  children: [
-                    Text(
-                      'Spread Radius: ${spreadRadius.toStringAsFixed(1)}',
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    Slider(
-                      value: spreadRadius,
-                      min: 1,
-                      max: 20,
-                      onChanged: (value) {
-                        setState(() {
-                          spreadRadius = value;
-                        });
-                      },
-                    ),
-
-                    Text(
-                      'Blur Radius: ${blurRadius.toStringAsFixed(1)}',
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    Slider(
-                      value: blurRadius,
-                      min: 0.1,
-                      max: 5,
-                      onChanged: (value) {
-                        setState(() {
-                          blurRadius = value;
-                        });
-                      },
-                    ),
-                    Text(
-                      'Border radius: ${borderRadius.toStringAsFixed(1)}',
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    Slider(
-                      value: borderRadius,
-                      min: 0,
-                      max: 25,
-                      onChanged: (value) {
-                        setState(() {
-                          borderRadius = value;
-                        });
-                      },
-                    ),
-                    Text(
-                      'Pulse duration: ${pulseDuration.inMilliseconds.toInt()} milliseconds',
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    Slider(
-                      value: pulseDuration.inMilliseconds.toDouble(),
-                      min: 0,
-                      max: 3000,
-                      onChanged: (value) {
-                        setState(() {
-                          pulseDuration = Duration(milliseconds: value.toInt());
-                        });
-                      },
-                    ),
-                    Text(
-                      'Delay between pulses: ${delayBetweenPulses.inMilliseconds.toInt()} milliseconds',
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    Slider(
-                      value: delayBetweenPulses.inMilliseconds.toDouble(),
-                      min: 0,
-                      max: 3000,
-                      onChanged: (value) {
-                        setState(() {
-                          delayBetweenPulses = Duration(
-                            milliseconds: value.toInt(),
-                          );
-                        });
-                      },
-                    ),
-                  ],
-                ),
+              PulsingBorderControls(
+                spreadRadius: spreadRadius,
+                blurRadius: blurRadius,
+                borderRadius: borderRadius,
+                pulseDuration: pulseDuration,
+                delayBetweenPulses: delayBetweenPulses,
+                onSpreadRadiusChanged: (value) {
+                  setState(() {
+                    spreadRadius = value;
+                  });
+                },
+                onBlurRadiusChanged: (value) {
+                  setState(() {
+                    blurRadius = value;
+                  });
+                },
+                onBorderRadiusChanged: (value) {
+                  setState(() {
+                    borderRadius = value;
+                  });
+                },
+                onPulseDurationChanged: (value) {
+                  setState(() {
+                    pulseDuration = value;
+                  });
+                },
+                onDelayBetweenPulsesChanged: (value) {
+                  setState(() {
+                    delayBetweenPulses = value;
+                  });
+                },
               ),
             ],
           ),

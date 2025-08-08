@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pulsing_border/src/pulsing_border_controller.dart';
 
@@ -81,8 +82,6 @@ class _PulsingBorderState extends State<PulsingBorder>
   bool _isAnimating = false;
   late PulsingBorderController controller;
 
-  // static const Duration animationDuration = Duration(milliseconds: 850);
-
   @override
   void initState() {
     super.initState();
@@ -94,7 +93,7 @@ class _PulsingBorderState extends State<PulsingBorder>
 
     pulseDelay = widget.pulseDelay;
 
-    borderRadius = widget.borderRadius * 1.25;
+    borderRadius = widget.borderRadius + (widget.spreadRadius / 2);
     animationController = AnimationController(
       vsync: this,
       duration: pulseDuration,
@@ -173,11 +172,11 @@ class _PulsingBorderState extends State<PulsingBorder>
           widget.controller ?? (PulsingBorderController()..startPulsing());
       controller.addListener(_onControllerChanged);
     }
-    if (oldWidget.borderRadius != widget.borderRadius) {
-      borderRadius = widget.borderRadius * 1.25;
+    if (oldWidget.borderRadius != widget.borderRadius ||
+        oldWidget.spreadRadius != widget.spreadRadius) {
+      borderRadius = widget.borderRadius + (widget.spreadRadius / 2);
     }
 
-    // Recreate animations if spreadRadius or blurRadius changed
     if (oldWidget.spreadRadius != widget.spreadRadius) {
       spreadRadiusAnimation = Tween<double>(begin: 0, end: widget.spreadRadius)
           .animate(
@@ -220,7 +219,6 @@ class _PulsingBorderState extends State<PulsingBorder>
         return Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(borderRadius),
-            color: widget.color,
             boxShadow: [
               BoxShadow(
                 color: widget.color.withValues(

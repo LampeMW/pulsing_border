@@ -1,7 +1,7 @@
 name: pulsing_border
 description: "A Flutter package for adding a pulsing border around a widget."
 version: 0.0.1
-homepage:
+repository: https://github.com/LampeMW/pulsing_border
 
 environment:
   sdk: ^3.8.1

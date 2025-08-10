@@ -88,12 +88,10 @@ class _PulsingBorderState extends State<PulsingBorder>
 
     controller =
         widget.controller ?? (PulsingBorderController()..startPulsing());
-
     pulseDuration = widget.pulseDuration;
-
     pulseDelay = widget.pulseDelay;
+    borderRadius = widget.borderRadius;
 
-    borderRadius = widget.borderRadius + (widget.spreadRadius / 2);
     animationController = AnimationController(
       vsync: this,
       duration: pulseDuration,
@@ -174,7 +172,7 @@ class _PulsingBorderState extends State<PulsingBorder>
     }
     if (oldWidget.borderRadius != widget.borderRadius ||
         oldWidget.spreadRadius != widget.spreadRadius) {
-      borderRadius = widget.borderRadius + (widget.spreadRadius / 2);
+      borderRadius = widget.borderRadius;
     }
 
     if (oldWidget.spreadRadius != widget.spreadRadius) {
@@ -208,6 +206,16 @@ class _PulsingBorderState extends State<PulsingBorder>
     super.didUpdateWidget(oldWidget);
   }
 
+  double calculateBorderRadius(double spreadRadiusValue) {
+    if (borderRadius == 0) {
+      return 0;
+    } else if (borderRadius < widget.spreadRadius / 2) {
+      return borderRadius + (spreadRadiusValue / 2);
+    } else {
+      return borderRadius + spreadRadiusValue;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
@@ -218,7 +226,9 @@ class _PulsingBorderState extends State<PulsingBorder>
       builder: (context, child) {
         return Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(borderRadius),
+            borderRadius: BorderRadius.circular(
+              calculateBorderRadius(spreadRadiusAnimation.value),
+            ),
             boxShadow: [
               BoxShadow(
                 color: widget.color.withValues(
